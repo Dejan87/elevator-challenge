@@ -43,17 +43,27 @@ class Elevators extends Component {
         this.setState({...this.state, setup: false, elevators: elevators}); // Setup is complete, proceed with simulation
     }
 
+    setStatusBackToUnoccupied = (current, destination) => {
+        // Set timeout, lets say that elevator needs 1s per floor, multiply with the number of floors(current to destiantion) and after that set its status to unoccupied
+    }
+
     requestAnElevator = () => {
         // Check if any of the elevators has 100 trips
             // If there is, set its status to service
-            
+
         // After that, we will have three priorities in total
 
         // Priority number 1 ( highest priority ): Check if unoccupied elevator is at that floor ( where request is made )
             // After request is made (requestedFloor), check if one of the elevators is on the same floor and if status is unoccupied
-                // If it is, set the status to occupied, increase the number of trips
+                // If it is, set the status to occupied, increase the number of trips, set its destination floor
+                    // setStatusBackToUnoccupied(current, destination)
+
 
         // Priority number 2: Check if an occupied elevator will pass that floor on its way
+            // Check if the elevator is occupied
+                // If it is, check if the requestedFloor(where request is made) is in range (current floor - destination floor)
+                    // If it is, this elevator will answer the call, increase the number of trips after pickup
+
 
         // Priority number 3: This is the default case, Unoccupied elevator closest to it will answer the call 
     }
