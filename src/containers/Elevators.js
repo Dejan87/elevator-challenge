@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 
 import Setup from "../components/Setup/Setup";
+import Elevator from "../components/Elevator/Elevator";
 
-class Elevator extends Component {
+class Elevators extends Component {
     state = {
         setup: true, // Show setup at the beginning
         numberOfElevators: 2,
         numberOfFloors: 1,
+        elevators: [],
+        status: "idle", // Status of every elevator at the beginning
+        currentFloor: 1 // All elevators start at the first floor
     }
 
     handleChangeNumberOfElevators = (event) => {
@@ -22,7 +26,11 @@ class Elevator extends Component {
     }
 
     startSimulation = () => {
-        this.setState({...this.state, setup: false}); // Setup is complete, proceed with simulation
+        let elevators = [];
+        for(let i = 1; i <= this.state.numberOfElevators; i++) {
+            elevators.push(i); // Initialize elevators
+        }
+        this.setState({...this.state, setup: false, elevators: elevators}); // Setup is complete, proceed with simulation
     }
 
     render() {
@@ -32,7 +40,13 @@ class Elevator extends Component {
                                             floors={this.state.numberOfFloors}
                                             numberOfElevators={this.handleChangeNumberOfElevators}
                                             numberOfFloors={this.handleChangeNumberOfFloors}
-                                            startSimulation={this.startSimulation}/> : null;
+                                            startSimulation={this.startSimulation}/> : this.state.elevators.map(elevator => {
+                                                return <Elevator 
+                                                            key={elevator}
+                                                            status={this.state.status}
+                                                            currentFloor={this.state.currentFloor}
+                                                            number={elevator}/>
+                                            });
         
         return (
             <div>
@@ -43,4 +57,4 @@ class Elevator extends Component {
 
 }
 
-export default Elevator;
+export default Elevators;
