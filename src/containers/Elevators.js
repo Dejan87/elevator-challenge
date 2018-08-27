@@ -44,7 +44,7 @@ class Elevators extends Component {
     }
 
     setStatusBackToUnoccupied = (current, destination) => {
-        // Set timeout, lets say that elevator needs 1s per floor, multiply with the number of floors(current to destiantion) and after that set its status to unoccupied
+        // Set timeout, lets say that elevator needs 1s per floor, multiply with the number of floors(current to destiantion) and after that set its status back to unoccupied
     }
 
     requestAnElevator = () => {
@@ -65,7 +65,10 @@ class Elevators extends Component {
                     // If it is, this elevator will answer the call, increase the number of trips after pickup
 
 
-        // Priority number 3: This is the default case, Unoccupied elevator closest to it will answer the call 
+        // Priority number 3: This is the default case, Unoccupied elevator closest to it will answer the call
+            // Default case, calculate what elevator (unoccupied) is closest to the call(difference between current floor and requestedFloor)
+                // If there are more elevators with the same difference, pick the first one, set its status to occupied,
+                // increase the number of trips and setStatusBackToUnoccupied(current, destination)
     }
 
     render() {
