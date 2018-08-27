@@ -7,8 +7,8 @@ import RequestController from "../components/RequestController/RequestController
 class Elevators extends Component {
     state = {
         setup: true, // Show setup at the beginning
-        numberOfElevators: 2,
-        numberOfFloors: 1,
+        numberOfElevators: 2, // Minimum of 2 elevators
+        numberOfFloors: 1, // We need to have at least one floor
         elevators: [],
         selectedFloor: 1 
     }
@@ -27,6 +27,7 @@ class Elevators extends Component {
 
     handleChangeSelectedFloor = (event) => {
         // User can make an elevator request from floor number 1 to amount of floors available
+        // The elevators cannot climb above or go below the amount of floors available.
         if(event.target.value > 0 && event.target.value <= this.state.numberOfFloors) {
             this.setState({...this.state, selectedFloor: event.target.value});
         }
@@ -37,9 +38,24 @@ class Elevators extends Component {
         for(let i = 1; i <= this.state.numberOfElevators; i++) {
             // Initialize elevators, represent each elevator with an object; set their status, currentFloor and numberOfTrips
             // to idle, 1 and 0 respectively
-            elevators.push({ name: i, status: "idle", currentFloor: 1, numberOfTrips: 0});
+            elevators.push({ name: i, status: "unoccupied", currentFloor: 1, numberOfTrips: 0});
         }
         this.setState({...this.state, setup: false, elevators: elevators}); // Setup is complete, proceed with simulation
+    }
+
+    requestAnElevator = () => {
+        // Check if any of the elevators has 100 trips
+            // If there is, set its status to service
+            
+        // After that, we will have three priorities in total
+
+        // Priority number 1 ( highest priority ): Check if unoccupied elevator is at that floor ( where request is made )
+            // After request is made (requestedFloor), check if one of the elevators is on the same floor and if status is unoccupied
+                // If it is, set the status to occupied, increase the number of trips
+
+        // Priority number 2: Check if an occupied elevator will pass that floor on its way
+
+        // Priority number 3: This is the default case, Unoccupied elevator closest to it will answer the call 
     }
 
     render() {
@@ -68,9 +84,7 @@ class Elevators extends Component {
                 <div className="row">
                     {setup}
                 </div>
-                <div>
-                    {requestController}
-                </div>
+                {requestController}
             </div>
         );
     }
