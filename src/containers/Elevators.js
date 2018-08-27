@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Setup from "../components/Setup/Setup";
 import Elevator from "../components/Elevator/Elevator";
+import RequestController from "../components/RequestController/RequestController";
 
 class Elevators extends Component {
     state = {
@@ -9,8 +10,7 @@ class Elevators extends Component {
         numberOfElevators: 2,
         numberOfFloors: 1,
         elevators: [],
-        status: "idle", // Status of every elevator at the beginning
-        currentFloor: 1 // All elevators start at the first floor
+        selectedFloor: 1 
     }
 
     handleChangeNumberOfElevators = (event) => {
@@ -25,10 +25,19 @@ class Elevators extends Component {
         }
     }
 
+    handleChangeSelectedFloor = (event) => {
+        // User can make an elevator request from floor number 1 to amount of floors available
+        if(event.target.value > 0 && event.target.value <= this.state.numberOfFloors) {
+            this.setState({...this.state, selectedFloor: event.target.value});
+        }
+    }
+
     startSimulation = () => {
         let elevators = [];
         for(let i = 1; i <= this.state.numberOfElevators; i++) {
-            elevators.push(i); // Initialize elevators
+            // Initialize elevators, represent each elevator with an object; set their status, currentFloor and numberOfTrips
+            // to idle, 1 and 0 respectively
+            elevators.push({ name: i, status: "idle", currentFloor: 1, numberOfTrips: 0});
         }
         this.setState({...this.state, setup: false, elevators: elevators}); // Setup is complete, proceed with simulation
     }
@@ -42,15 +51,26 @@ class Elevators extends Component {
                                             numberOfFloors={this.handleChangeNumberOfFloors}
                                             startSimulation={this.startSimulation}/> : this.state.elevators.map(elevator => {
                                                 return <Elevator 
-                                                            key={elevator}
-                                                            status={this.state.status}
-                                                            currentFloor={this.state.currentFloor}
-                                                            number={elevator}/>
+                                                            key={elevator.name}
+                                                            status={elevator.status}
+                                                            currentFloor={elevator.currentFloor}
+                                                            number={elevator.name}
+                                                            count={elevator.numberOfTrips}/>
                                             });
+
+        let requestController = !this.state.setup ? <RequestController 
+                                                        selectedFloor={this.handleChangeSelectedFloor}
+                                                        floors={this.state.selectedFloor}
+                                                        elevatorRequest={this.requestAnElevator}/> : null;
         
         return (
             <div>
-                {setup}
+                <div className="row">
+                    {setup}
+                </div>
+                <div>
+                    {requestController}
+                </div>
             </div>
         );
     }

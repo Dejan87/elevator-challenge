@@ -8,6 +8,7 @@ const elevator = (props) => {
             <h3>{`Elevator ${props.number}`}</h3>
             Status: <span>{props.status}</span><br/>
             Current Floor: <span>{props.currentFloor}</span><br/>
+            Trip Count: <span>{props.count}</span><br/>
         </div>
     );
 };
